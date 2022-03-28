@@ -1,5 +1,14 @@
 <h1>New Article</h1>
+
 <%= form_with scope: :datum, url: datums_path, local: true do |form| %>
+<% if @datum.errors.any? %> 
+  <h2>The following errors prevented the article from being saved</h2> 
+  <ul> 
+    <% @datum.errors.full_messages.each do |msg| %> 
+      <li><%= msg %></li> 
+    <% end %> 
+  </ul>
+<% end %>
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
@@ -15,4 +24,5 @@
   </div>
 <% end %>
 
+<%= link_to 'Back', datums_path %>
 
