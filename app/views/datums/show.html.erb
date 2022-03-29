@@ -1,15 +1,24 @@
-<p id="notice"><%= notice %></p>
+<div id="page-content">
+  <h2 class="text-center mt-4"><%= @datum.name %></h2>
 
-<p>
-  <strong>Title:</strong>
-  <%= @datum.name%>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @datum.description%>
-</p>
-
-
-<%= link_to 'Edit', edit_datum_path(@datum) %> |
-<%= link_to 'Back', datums_path %>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-8 mt-4">
+        <div class="card text-center shadow mb-5 bg-white rounded">
+          <div class="card-header font-italic">
+            by MSK
+          </div>
+          <div class="card-body">
+            <div class="card-text text-left"><%= simple_format(@datum.description) %></div>
+            <%= link_to "Edit", edit_datum_path(@datum), class: "btn btn-outline-info" %>
+            <%= link_to "Delete", datum_path(@datum), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+          </div>
+          <div class="card-footer text-muted">
+            <small>Created <%= time_ago_in_words(@datum.created_at) %> ago, 
+            edited <%= time_ago_in_words(@datum.updated_at) %> ago</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
