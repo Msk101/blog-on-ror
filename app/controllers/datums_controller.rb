@@ -1,8 +1,10 @@
 class DatumsController < ApplicationController
     before_action :set_data, only: %i[ show edit update destroy ]
+    before_action :require_user, except: [:show, :index]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
 
     def index
-        @datums = Datum.all
+        @datums = Datum.paginate(page: params[:page], per_page: 3)
     end
 
     def show 
@@ -16,6 +18,7 @@ class DatumsController < ApplicationController
 
     def create 
         @datum = Datum.new(data_params)
+        @article.user = current_user
         if @datum.save
             flash[:notice] = "Article was created successfully."
             redirect_to @datum
@@ -50,6 +53,13 @@ class DatumsController < ApplicationController
 
     def data_params 
         params.require(:datum).permit(:name, :description)
+    end
+
+    def require_same_user
+    if current_user != @datum.user
+        flash[:alert] = "You can only edit or delete your own article"
+        redirect_to @datum
+    end
     end
 
 
